@@ -1,0 +1,46 @@
+<%= form_with(model: todo, local: true) do |form| %>
+  <% if todo.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(todo.errors.count, "error") %> prohibited this todo from being saved:</h4>
+      <ul>
+        <% todo.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control", placeholder: "What needs to be done?" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 3, placeholder: "Add details..." %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, 
+                    [["Not Started", "not_started"], 
+                     ["In Progress", "in_progress"], 
+                     ["Completed", "completed"]], 
+                    { selected: todo.new_record? ? "not_started" : todo.status }, 
+                    { class: "form-select" } %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :due_date, class: "form-label" %>
+    <%= form.date_field :due_date, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :priority, class: "form-label" %>
+    <%= form.select :priority, [["Low", "low"], ["Medium", "medium"], ["High", "high"]], { include_blank: "Select Priority" }, { class: "form-select" } %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: "btn btn-primary w-100" %>
+  </div>
+<% end %>
